@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none">
+  <rect width="640" height="480" rx="32" fill="#F3F0F8"/>
+  <circle cx="130" cy="110" r="85" fill="#B9A3E8" fill-opacity="0.32"/>
+  <circle cx="520" cy="360" r="105" fill="#A8DDC8" fill-opacity="0.4"/>
+  <circle cx="505" cy="110" r="64" fill="#FFC5A8" fill-opacity="0.42"/>
+  <circle cx="170" cy="380" r="70" fill="#F9DFA0" fill-opacity="0.48"/>
+
+  <!-- Connecting Arc Lines -->
+  <path d="M165 245 C235 160, 405 160, 475 245" stroke="#30245F" stroke-width="2.5" stroke-dasharray="6 6" stroke-opacity="0.28"/>
+  <path d="M185 280 C260 350, 380 350, 455 280" stroke="#B9A3E8" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Left Friend Card -->
+  <rect x="82" y="158" width="166" height="196" rx="24" fill="#FFFFFF" stroke="#30245F" stroke-opacity="0.08" stroke-width="2"/>
+  <circle cx="165" cy="222" r="38" fill="#FFC5A8"/>
+  <circle cx="165" cy="212" r="16" fill="#30245F"/>
+  <path d="M138 248 C138 232, 192 232, 192 248" fill="#30245F"/>
+  <rect x="114" y="276" width="102" height="12" rx="6" fill="#30245F" fill-opacity="0.16"/>
+  <rect x="110" y="302" width="52" height="22" rx="11" fill="#FFF0E8"/>
+  <rect x="168" y="302" width="52" height="22" rx="11" fill="#EFEAF9"/>
+
+  <!-- Center Shared Spark -->
+  <circle cx="320" cy="240" r="46" fill="#FFFFFF" stroke="#B9A3E8" stroke-width="3"/>
+  <circle cx="320" cy="240" r="34" fill="#30245F"/>
+  <path d="M320 220 L325 233 L338 235 L328 244 L331 257 L320 250 L309 257 L312 244 L302 235 L315 233 Z" fill="#F9DFA0"/>
+
+  <!-- Right Friend Card -->
+  <rect x="392" y="158" width="166" height="196" rx="24" fill="#FFFFFF" stroke="#30245F" stroke-opacity="0.08" stroke-width="2"/>
+  <circle cx="475" cy="222" r="38" fill="#A8DDC8"/>
+  <circle cx="475" cy="212" r="16" fill="#30245F"/>
+  <path d="M448 248 C448 232, 502 232, 502 248" fill="#30245F"/>
+  <rect x="424" y="276" width="102" height="12" rx="6" fill="#30245F" fill-opacity="0.16"/>
+  <rect x="420" y="302" width="52" height="22" rx="11" fill="#E8F7F1"/>
+  <rect x="478" y="302" width="52" height="22" rx="11" fill="#FCF0F6"/>
+
+  <!-- Floating Hobby Badges -->
+  <rect x="242" y="84" width="156" height="44" rx="22" fill="#FFFFFF" stroke="#30245F" stroke-opacity="0.08" stroke-width="2"/>
+  <circle cx="268" cy="106" r="11" fill="#A8DDC8"/>
+  <rect x="288" y="100" width="88" height="12" rx="6" fill="#30245F" fill-opacity="0.75"/>
+
+  <rect x="230" y="372" width="180" height="44" rx="22" fill="#FFFFFF" stroke="#30245F" stroke-opacity="0.08" stroke-width="2"/>
+  <circle cx="256" cy="394" r="11" fill="#F6D5E5"/>
+  <rect x="276" y="388" width="110" height="12" rx="6" fill="#30245F" fill-opacity="0.75"/>
+</svg>

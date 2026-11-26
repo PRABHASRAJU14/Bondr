@@ -1,0 +1,104 @@
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.hobby-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  width: 100%;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+}
+
+.hobby-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(185, 163, 232, 0.55);
+}
+
+.hobby-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hobby-icon-wrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--text-primary);
+  transition: transform var(--transition-base);
+}
+
+.hobby-card:hover .hobby-icon-wrap {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.hobby-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.hobby-card h3 {
+  font-size: 1.22rem;
+  color: var(--text-primary);
+}
+
+.hobby-card p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.hobby-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.hobby-card:hover .hobby-card-cta svg {
+  transform: translateX(4px);
+}
+
+.hobby-card-cta svg {
+  transition: transform var(--transition-fast);
+}
+
+/* Search & Filter header on Explore Hobbies */
+.hobbies-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.hobbies-search-wrap {
+  flex: 1;
+  min-width: 240px;
+  max-width: 400px;
+}

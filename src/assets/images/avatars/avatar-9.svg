@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="bg-sneha" x1="0" y1="0" x2="320" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FEF7E4"/>
+      <stop offset="100%" stop-color="#FCDCA0"/>
+    </linearGradient>
+    <linearGradient id="skin-9" x1="160" y1="90" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F5CAA7"/>
+      <stop offset="100%" stop-color="#E5AF8B"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="36" fill="url(#bg-sneha)"/>
+  <!-- Culinary and spark accents -->
+  <circle cx="265" cy="65" r="16" fill="#FFC5A8" opacity="0.8"/>
+  <path d="M50 70 Q60 50, 75 70 Q60 90, 50 70 Z" fill="#F59E0B" opacity="0.6"/>
+  <!-- Hair Bun with Headscarf -->
+  <circle cx="160" cy="72" r="32" fill="#241A33"/>
+  <rect x="130" y="90" width="60" height="14" rx="7" fill="#F97316"/>
+  <!-- Torso & Cozy Top -->
+  <path d="M88 320 C88 258, 122 242, 160 242 C198 242, 232 258, 232 320 Z" fill="#D97706"/>
+  <path d="M136 242 L160 274 L184 242 Z" fill="#E5AF8B"/>
+  <!-- Neck -->
+  <rect x="146" y="196" width="28" height="35" rx="10" fill="#E5AF8B"/>
+  <!-- Face -->
+  <ellipse cx="160" cy="155" rx="45" ry="52" fill="url(#skin-9)"/>
+  <!-- Hair Front -->
+  <path d="M112 142 C116 102, 140 92, 160 92 C180 92, 204 102, 208 142 C190 122, 175 130, 160 128 C142 128, 130 122, 112 142 Z" fill="#241A33"/>
+  <!-- Eyes -->
+  <ellipse cx="143" cy="154" rx="4.5" ry="6.5" fill="#241A33"/>
+  <ellipse cx="177" cy="154" rx="4.5" ry="6.5" fill="#241A33"/>
+  <circle cx="145" cy="152" r="2" fill="#FFFFFF"/>
+  <circle cx="179" cy="152" r="2" fill="#FFFFFF"/>
+  <!-- Eyebrows -->
+  <path d="M134 141 C139 138, 147 138, 151 141" stroke="#241A33" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M169 141 C173 138, 181 138, 186 141" stroke="#241A33" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- Wide Cheerful Smile & Dimples -->
+  <path d="M148 175 Q160 190, 172 175 Z" fill="#FFFFFF" stroke="#9A3412" stroke-width="2.5"/>
+  <circle cx="132" cy="168" r="5" fill="#FDBA74" opacity="0.6"/>
+  <circle cx="188" cy="168" r="5" fill="#FDBA74" opacity="0.6"/>
+</svg>

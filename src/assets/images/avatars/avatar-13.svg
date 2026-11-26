@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="bg-niharika" x1="0" y1="0" x2="320" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ECFEFF"/>
+      <stop offset="100%" stop-color="#A5F3FC"/>
+    </linearGradient>
+    <linearGradient id="skin-13" x1="160" y1="90" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F3C3A0"/>
+      <stop offset="100%" stop-color="#E2A880"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="36" fill="url(#bg-niharika)"/>
+  <!-- Robotic Gear Accent -->
+  <circle cx="265" cy="65" r="16" stroke="#0891B2" stroke-width="3" stroke-dasharray="4 4" fill="none"/>
+  <circle cx="265" cy="65" r="7" fill="#0891B2"/>
+  <!-- Tech Ponytail -->
+  <path d="M200 100 C240 85, 250 145, 230 190 C215 160, 200 130, 190 110 Z" fill="#1E1B4B"/>
+  <!-- Torso & Robotics Lab Coat -->
+  <path d="M88 320 C88 258, 122 242, 160 242 C198 242, 232 258, 232 320 Z" fill="#0E7490"/>
+  <path d="M136 242 L160 274 L184 242 Z" fill="#FFFFFF"/>
+  <!-- Lab Lanyard ID -->
+  <rect x="150" y="278" width="20" height="28" rx="4" fill="#FFFFFF" stroke="#0891B2" stroke-width="2"/>
+  <!-- Neck -->
+  <rect x="146" y="196" width="28" height="35" rx="10" fill="#E2A880"/>
+  <!-- Face -->
+  <ellipse cx="160" cy="155" rx="45" ry="52" fill="url(#skin-13)"/>
+  <!-- Sleek Hair Front -->
+  <path d="M112 140 C116 95, 140 85, 160 85 C180 85, 204 95, 208 140 C190 118, 175 125, 160 124 C142 124, 130 118, 112 140 Z" fill="#1E1B4B"/>
+  <circle cx="195" cy="98" r="10" fill="#06B6D4"/>
+  <!-- Modern Wireless Earpiece -->
+  <rect x="108" y="152" width="6" height="14" rx="3" fill="#0891B2"/>
+  <!-- Eyes -->
+  <ellipse cx="143" cy="154" rx="4.5" ry="6.5" fill="#1E1B4B"/>
+  <ellipse cx="177" cy="154" rx="4.5" ry="6.5" fill="#1E1B4B"/>
+  <circle cx="145" cy="152" r="2" fill="#FFFFFF"/>
+  <circle cx="179" cy="152" r="2" fill="#FFFFFF"/>
+  <!-- Eyebrows -->
+  <path d="M134 140 C139 137, 147 137, 151 140" stroke="#1E1B4B" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M169 140 C173 137, 181 137, 186 140" stroke="#1E1B4B" stroke-width="2.8" stroke-linecap="round"/>
+  <!-- Confident Smile -->
+  <path d="M151 176 Q160 186, 169 176" stroke="#9F1239" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

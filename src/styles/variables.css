@@ -1,0 +1,79 @@
+:root {
+  /* Primary Pastel & Brand Palette */
+  --color-lavender: #B9A3E8;
+  --color-lavender-soft: #EFEAF9;
+  --color-lavender-mid: #D7CBF3;
+  --color-deep-purple: #30245F;
+  --color-deep-purple-hover: #241A4B;
+  --color-mint: #A8DDC8;
+  --color-mint-soft: #E8F7F1;
+  --color-peach: #FFC5A8;
+  --color-peach-soft: #FFF0E8;
+  --color-butter: #F9DFA0;
+  --color-butter-soft: #FEF7E4;
+  --color-pink: #F6D5E5;
+  --color-pink-soft: #FCF0F6;
+
+  /* Background & Surface Colors */
+  --bg-main: #FAF9F6;
+  --bg-card: #FFFFFF;
+  --bg-secondary: #F3F0F8;
+  --bg-glass: rgba(255, 255, 255, 0.84);
+
+  /* Text Colors */
+  --text-primary: #30245F;
+  --text-body: #4A4463;
+  --text-muted: #76708D;
+  --text-on-dark: #FFFFFF;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(48, 36, 95, 0.08);
+  --border-medium: rgba(48, 36, 95, 0.14);
+  --border-focus: #8F74D6;
+
+  /* Status Colors */
+  --status-success: #1F7A5C;
+  --status-success-bg: #E3F6EE;
+  --status-warning: #8C5A16;
+  --status-warning-bg: #FDF2DA;
+  --status-danger: #B4374E;
+  --status-danger-bg: #FCEBF0;
+
+  /* Typography */
+  --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Type Scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.75rem;
+  --text-5xl: 3.35rem;
+
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 2px 8px rgba(48, 36, 95, 0.04);
+  --shadow-sm: 0 6px 20px rgba(48, 36, 95, 0.06);
+  --shadow-md: 0 12px 32px rgba(48, 36, 95, 0.08);
+  --shadow-lg: 0 20px 48px rgba(48, 36, 95, 0.11);
+  --shadow-glow-lavender: 0 10px 28px rgba(185, 163, 232, 0.35);
+
+  /* Layout & Spacing */
+  --container-max: 1220px;
+  --nav-height: 76px;
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-fast: 180ms var(--ease-smooth);
+  --transition-base: 280ms var(--ease-smooth);
+}

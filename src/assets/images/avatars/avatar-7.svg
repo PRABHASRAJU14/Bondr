@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="bg-ishita" x1="0" y1="0" x2="320" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FCF0F6"/>
+      <stop offset="100%" stop-color="#F7C6DF"/>
+    </linearGradient>
+    <linearGradient id="skin-7" x1="160" y1="90" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F2C19E"/>
+      <stop offset="100%" stop-color="#E2A782"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="36" fill="url(#bg-ishita)"/>
+  <circle cx="50" cy="70" r="14" fill="#F6D5E5" opacity="0.8"/>
+  <path d="M260 55 Q275 40, 290 60 Q275 80, 260 55 Z" fill="#F43F5E" opacity="0.7"/>
+  <!-- High Ponytail Hair Back -->
+  <path d="M195 85 C240 60, 255 130, 230 185 C215 150, 195 120, 185 100 Z" fill="#261E35"/>
+  <!-- Torso & Dance Crop Top -->
+  <path d="M88 320 C88 260, 122 242, 160 242 C198 242, 232 260, 232 320 Z" fill="#BE185D"/>
+  <path d="M136 242 L160 280 L184 242 Z" fill="#E2A782"/>
+  <!-- Neck -->
+  <rect x="146" y="196" width="28" height="35" rx="10" fill="#E2A782"/>
+  <!-- Face -->
+  <ellipse cx="160" cy="155" rx="45" ry="52" fill="url(#skin-7)"/>
+  <!-- Hair Front -->
+  <path d="M115 140 C118 95, 140 85, 160 85 C180 85, 202 95, 205 140 C188 115, 175 125, 160 125 C142 125, 130 115, 115 140 Z" fill="#261E35"/>
+  <circle cx="188" cy="88" r="14" fill="#F43F5E"/>
+  <!-- Eyes -->
+  <ellipse cx="142" cy="154" rx="4.5" ry="6.5" fill="#261E35"/>
+  <ellipse cx="178" cy="154" rx="4.5" ry="6.5" fill="#261E35"/>
+  <circle cx="144" cy="152" r="1.8" fill="#FFFFFF"/>
+  <circle cx="180" cy="152" r="1.8" fill="#FFFFFF"/>
+  <!-- Eyebrows -->
+  <path d="M132 141 C138 138, 146 138, 150 141" stroke="#261E35" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M170 141 C174 138, 182 138, 188 141" stroke="#261E35" stroke-width="2.8" stroke-linecap="round"/>
+  <!-- Smile -->
+  <path d="M150 176 Q160 188, 170 176" stroke="#9F1239" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Gold Hoop Earrings -->
+  <circle cx="112" cy="165" r="9" stroke="#F59E0B" stroke-width="2.5" fill="none"/>
+  <circle cx="208" cy="165" r="9" stroke="#F59E0B" stroke-width="2.5" fill="none"/>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="bg-tanvi" x1="0" y1="0" x2="320" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8F7F1"/>
+      <stop offset="100%" stop-color="#C5E8DC"/>
+    </linearGradient>
+    <linearGradient id="skin-11" x1="160" y1="90" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F3C3A0"/>
+      <stop offset="100%" stop-color="#E4AC87"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="36" fill="url(#bg-tanvi)"/>
+  <!-- Poetry Leaf Accent -->
+  <circle cx="265" cy="65" r="16" fill="#A8DDC8" opacity="0.6"/>
+  <path d="M55 60 C65 50, 75 70, 65 80 C55 90, 45 70, 55 60 Z" fill="#047857" opacity="0.6"/>
+  <!-- Soft Wavy Hair Back -->
+  <path d="M100 125 C82 195, 85 255, 96 285 L224 285 C235 255, 238 195, 220 125 Z" fill="#2E203B"/>
+  <!-- Torso & Knitted Sweater -->
+  <path d="M88 320 C88 258, 122 242, 160 242 C198 242, 232 258, 232 320 Z" fill="#059669"/>
+  <!-- Sweater Ribbed Collar -->
+  <ellipse cx="160" cy="242" rx="26" ry="12" fill="#047857"/>
+  <!-- Neck -->
+  <rect x="146" y="196" width="28" height="35" rx="10" fill="#E4AC87"/>
+  <!-- Face -->
+  <ellipse cx="160" cy="155" rx="45" ry="52" fill="url(#skin-11)"/>
+  <!-- Hair Front Bangs -->
+  <path d="M112 142 C116 98, 138 86, 160 86 C182 86, 204 98, 208 142 C192 120, 178 128, 160 126 C142 128, 128 120, 112 142 Z" fill="#2E203B"/>
+  <!-- Eyes -->
+  <ellipse cx="143" cy="154" rx="4.5" ry="6.5" fill="#2E203B"/>
+  <ellipse cx="177" cy="154" rx="4.5" ry="6.5" fill="#2E203B"/>
+  <circle cx="145" cy="152" r="2" fill="#FFFFFF"/>
+  <circle cx="179" cy="152" r="2" fill="#FFFFFF"/>
+  <!-- Eyebrows -->
+  <path d="M134 141 C139 138, 147 138, 151 141" stroke="#2E203B" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M169 141 C173 138, 181 138, 186 141" stroke="#2E203B" stroke-width="2.6" stroke-linecap="round"/>
+  <!-- Gentle Reflective Smile -->
+  <path d="M152 177 Q160 185, 168 177" stroke="#9F1239" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+  <!-- Pearl Earrings -->
+  <circle cx="113" cy="166" r="4.5" fill="#F1F5F9"/>
+  <circle cx="207" cy="166" r="4.5" fill="#F1F5F9"/>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="bg-diya" x1="0" y1="0" x2="320" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FCF0F6"/>
+      <stop offset="100%" stop-color="#F5CEE3"/>
+    </linearGradient>
+    <linearGradient id="skin-5" x1="160" y1="90" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F2C5A3"/>
+      <stop offset="100%" stop-color="#E2AE8A"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="36" fill="url(#bg-diya)"/>
+  <!-- Design Color Swatches Accent -->
+  <circle cx="55" cy="65" r="10" fill="#FFC5A8"/>
+  <circle cx="78" cy="65" r="10" fill="#B9A3E8"/>
+  <circle cx="101" cy="65" r="10" fill="#A8DDC8"/>
+  <!-- Torso & Designer Smock -->
+  <path d="M88 320 C88 258, 122 242, 160 242 C198 242, 232 258, 232 320 Z" fill="#4338CA"/>
+  <path d="M136 242 L160 274 L184 242 Z" fill="#E2AE8A"/>
+  <!-- Stylus in pocket -->
+  <rect x="180" y="275" width="6" height="35" rx="3" fill="#F43F5E"/>
+  <!-- Neck -->
+  <rect x="146" y="196" width="28" height="35" rx="10" fill="#E2AE8A"/>
+  <!-- Face -->
+  <ellipse cx="160" cy="155" rx="45" ry="52" fill="url(#skin-5)"/>
+  <!-- Stylish Bob Haircut -->
+  <path d="M106 140 C104 88, 135 78, 160 78 C185 78, 216 88, 214 140 C216 195, 206 215, 200 215 C192 145, 185 118, 160 118 C135 118, 128 145, 120 215 C114 215, 104 195, 106 140 Z" fill="#18181B"/>
+  <!-- Designer Round Glasses -->
+  <circle cx="141" cy="154" r="16" stroke="#4F46E5" stroke-width="3" fill="rgba(255,255,255,0.25)"/>
+  <circle cx="179" cy="154" r="16" stroke="#4F46E5" stroke-width="3" fill="rgba(255,255,255,0.25)"/>
+  <path d="M157 154 L163 154" stroke="#4F46E5" stroke-width="3"/>
+  <!-- Eyes -->
+  <circle cx="141" cy="154" r="4.5" fill="#18181B"/>
+  <circle cx="179" cy="154" r="4.5" fill="#18181B"/>
+  <circle cx="143" cy="152" r="1.5" fill="#FFFFFF"/>
+  <circle cx="181" cy="152" r="1.5" fill="#FFFFFF"/>
+  <!-- Eyebrows -->
+  <path d="M130 135 C136 132, 145 132, 150 135" stroke="#18181B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M170 135 C175 132, 184 132, 190 135" stroke="#18181B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Smile & Cheeks -->
+  <path d="M151 177 Q160 186, 169 177" stroke="#BE123C" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="128" cy="168" r="6" fill="#FDA4AF" opacity="0.6"/>
+  <circle cx="192" cy="168" r="6" fill="#FDA4AF" opacity="0.6"/>
+</svg>

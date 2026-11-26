@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="bg-aarav" x1="0" y1="0" x2="320" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8F7F1"/>
+      <stop offset="100%" stop-color="#C2EAD9"/>
+    </linearGradient>
+    <linearGradient id="skin-2" x1="160" y1="90" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E5B28B"/>
+      <stop offset="100%" stop-color="#D49E77"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="36" fill="url(#bg-aarav)"/>
+  <circle cx="60" cy="60" r="18" fill="#B9A3E8" opacity="0.6"/>
+  <circle cx="270" cy="260" r="22" fill="#FFC5A8" opacity="0.5"/>
+  <!-- Code bracket accent -->
+  <path d="M45 150 L35 160 L45 170" stroke="#1F7A5C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M275 150 L285 160 L275 170" stroke="#1F7A5C" stroke-width="3" stroke-linecap="round"/>
+  <!-- Headphones around neck -->
+  <path d="M120 225 C120 255, 200 255, 200 225" stroke="#241B3B" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <rect x="112" y="215" width="16" height="26" rx="6" fill="#30245F"/>
+  <rect x="192" y="215" width="16" height="26" rx="6" fill="#30245F"/>
+  <!-- Torso & Hoodie -->
+  <path d="M85 320 C85 255, 120 240, 160 240 C200 240, 235 255, 235 320 Z" fill="#1F7A5C"/>
+  <path d="M135 240 L160 270 L185 240 Z" fill="#D49E77"/>
+  <circle cx="160" cy="295" r="5" fill="#A8DDC8"/>
+  <!-- Neck -->
+  <rect x="146" y="195" width="28" height="36" rx="10" fill="#D49E77"/>
+  <!-- Face -->
+  <ellipse cx="160" cy="155" rx="46" ry="52" fill="url(#skin-2)"/>
+  <!-- Hair -->
+  <path d="M112 140 C110 90, 140 75, 160 75 C185 75, 210 90, 208 140 C195 110, 180 115, 160 110 C140 115, 125 110, 112 140 Z" fill="#1B142E"/>
+  <path d="M140 75 Q155 60, 175 72" fill="#1B142E"/>
+  <!-- Square Glasses -->
+  <rect x="126" y="142" width="28" height="22" rx="5" stroke="#30245F" stroke-width="3" fill="rgba(255,255,255,0.2)"/>
+  <rect x="166" y="142" width="28" height="22" rx="5" stroke="#30245F" stroke-width="3" fill="rgba(255,255,255,0.2)"/>
+  <path d="M154 153 L166 153" stroke="#30245F" stroke-width="3"/>
+  <!-- Eyes -->
+  <circle cx="140" cy="153" r="4" fill="#1B142E"/>
+  <circle cx="180" cy="153" r="4" fill="#1B142E"/>
+  <circle cx="142" cy="151" r="1.5" fill="#FFFFFF"/>
+  <circle cx="182" cy="151" r="1.5" fill="#FFFFFF"/>
+  <!-- Eyebrows -->
+  <path d="M128 135 L150 135" stroke="#1B142E" stroke-width="3" stroke-linecap="round"/>
+  <path d="M170 135 L192 135" stroke="#1B142E" stroke-width="3" stroke-linecap="round"/>
+  <!-- Smile -->
+  <path d="M150 178 Q160 188, 170 178" stroke="#9E4D36" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

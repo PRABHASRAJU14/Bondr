@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="bg-ananya" x1="0" y1="0" x2="320" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#EFEAF9"/>
+      <stop offset="100%" stop-color="#D8CCF4"/>
+    </linearGradient>
+    <linearGradient id="skin-1" x1="160" y1="90" x2="160" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F3C3A0"/>
+      <stop offset="100%" stop-color="#E5AF8B"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" rx="36" fill="url(#bg-ananya)"/>
+  <circle cx="270" cy="50" r="16" fill="#FFC5A8" opacity="0.6"/>
+  <circle cx="50" cy="270" r="24" fill="#A8DDC8" opacity="0.5"/>
+  <path d="M280 180 L286 195 L301 197 L290 207 L293 222 L280 214 L267 222 L270 207 L259 197 L274 195 Z" fill="#F9DFA0" opacity="0.8"/>
+  <!-- Hair Back -->
+  <circle cx="160" cy="85" r="42" fill="#241B3B"/>
+  <path d="M110 130 C100 190, 100 230, 105 260 L215 260 C220 230, 220 190, 210 130 Z" fill="#241B3B"/>
+  <!-- Torso & Clothing -->
+  <path d="M90 320 C90 260, 125 240, 160 240 C195 240, 230 260, 230 320 Z" fill="#30245F"/>
+  <path d="M135 240 L160 275 L185 240 Z" fill="#E5AF8B"/>
+  <!-- Camera Strap -->
+  <path d="M108 260 L140 320" stroke="#FFC5A8" stroke-width="8" stroke-linecap="round"/>
+  <rect x="135" y="300" width="45" height="24" rx="6" fill="#241B3B"/>
+  <circle cx="157" cy="312" r="7" fill="#A8DDC8"/>
+  <!-- Neck -->
+  <rect x="145" y="195" width="30" height="36" rx="10" fill="#E5AF8B"/>
+  <!-- Face -->
+  <ellipse cx="160" cy="155" rx="46" ry="54" fill="url(#skin-1)"/>
+  <!-- Hair Front Bun & Bangs -->
+  <path d="M114 140 C120 105, 140 95, 160 95 C180 95, 200 105, 206 140 C185 118, 175 125, 160 125 C145 125, 135 118, 114 140 Z" fill="#241B3B"/>
+  <circle cx="160" cy="65" r="22" fill="#241B3B"/>
+  <circle cx="160" cy="65" r="8" fill="#B9A3E8"/>
+  <!-- Eyes -->
+  <ellipse cx="143" cy="155" rx="5" ry="7" fill="#241B3B"/>
+  <ellipse cx="177" cy="155" rx="5" ry="7" fill="#241B3B"/>
+  <circle cx="145" cy="153" r="2" fill="#FFFFFF"/>
+  <circle cx="179" cy="153" r="2" fill="#FFFFFF"/>
+  <!-- Eyebrows -->
+  <path d="M135 144 C140 141, 148 141, 152 144" stroke="#241B3B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M168 144 C172 141, 180 141, 185 144" stroke="#241B3B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Glasses -->
+  <circle cx="143" cy="155" r="15" stroke="#FFC5A8" stroke-width="2.5" fill="none"/>
+  <circle cx="177" cy="155" r="15" stroke="#FFC5A8" stroke-width="2.5" fill="none"/>
+  <path d="M158 155 L162 155" stroke="#FFC5A8" stroke-width="2.5"/>
+  <!-- Smile & Cheeks -->
+  <path d="M152 178 Q160 186, 168 178" stroke="#B84A39" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <circle cx="132" cy="168" r="6" fill="#FFC5A8" opacity="0.6"/>
+  <circle cx="188" cy="168" r="6" fill="#FFC5A8" opacity="0.6"/>
+  <!-- Earrings -->
+  <circle cx="113" cy="165" r="4" fill="#F9DFA0"/>
+  <circle cx="207" cy="165" r="4" fill="#F9DFA0"/>
+</svg>
