@@ -6,6 +6,7 @@ import { rankStudentsBySharedInterests } from '../utils/matching';
 import {
   fetchProfilesFromCloud,
   upsertProfileToCloud,
+  deleteProfileFromCloud,
   fetchConnectionsFromCloud,
   upsertConnectionToCloud,
   removeConnectionFromCloud,
@@ -243,32 +244,10 @@ export function AppProvider({ children }) {
 
         if (mounted) {
           if (cloudProfiles && cloudProfiles.length > 0) {
-            setStudents((prev) => {
-              const safe = Array.isArray(prev) ? prev : [];
-              const cloudIds = new Set(cloudProfiles.map((p) => p.id));
-              const localOnly = safe.filter((s) => s && !cloudIds.has(s.id));
-              localOnly.forEach((local) => {
-                if (local && local.id && !local.isSample) {
-                  upsertProfileToCloud(local);
-                }
-              });
-              return [...cloudProfiles, ...localOnly];
-            });
-          } else {
-            // Cloud is empty - upload existing local profiles to Supabase cloud!
-            setStudents((prev) => {
-              const safe = Array.isArray(prev) ? prev : [];
-              safe.forEach((local) => {
-                if (local && local.id && !local.isSample) {
-                  upsertProfileToCloud(local);
-                }
-              });
-              return safe;
-            });
-          }
-
-          if (currentUser && !currentUser.isGuest) {
-            upsertProfileToCloud(currentUser);
+            setStudents(cloudProfiles);
+            try {
+              window.localStorage.setItem('bondr_srm_students_v8', JSON.stringify(cloudProfiles));
+            } catch (e) {}
           }
 
           if (cloudConnections && cloudConnections.length > 0) {
@@ -321,6 +300,11 @@ export function AppProvider({ children }) {
             }
             return [mapped, ...safe];
           });
+        } else if (payload.eventType === 'DELETE') {
+          const deletedId = payload.old?.id;
+          if (deletedId) {
+            setStudents((prev) => (Array.isArray(prev) ? prev.filter((s) => s && s.id !== deletedId) : []));
+          }
         }
       },
       onConnectionChange: (payload) => {
@@ -576,29 +560,59 @@ export function AppProvider({ children }) {
   }, [setCurrentUser]);
 
   const deleteStudentProfile = useCallback(
-    (studentId) => {
+    async (studentId) => {
       if (!studentId) return;
-      setStudents((prev) => (Array.isArray(prev) ? prev.filter((s) => s && s.id !== studentId) : []));
-      setConnections((prev) =>
-        (Array.isArray(prev) ? prev : []).filter(
+
+      // 1. Delete from Supabase cloud immediately
+      deleteProfileFromCloud(studentId);
+
+      // 2. Remove from students and save synchronously to localStorage
+      setStudents((prev) => {
+        const next = (Array.isArray(prev) ? prev : []).filter((s) => s && s.id !== studentId);
+        try {
+          window.localStorage.setItem('bondr_srm_students_v8', JSON.stringify(next));
+        } catch (e) {
+          console.warn('Sync students error on delete:', e);
+        }
+        return next;
+      });
+
+      // 3. Remove connections and save synchronously
+      setConnections((prev) => {
+        const next = (Array.isArray(prev) ? prev : []).filter(
           (c) =>
             c &&
             c.fromUserId !== studentId &&
             c.toUserId !== studentId &&
             c.studentId !== studentId
-        )
-      );
+        );
+        try {
+          window.localStorage.setItem('bondr_srm_connections_v8', JSON.stringify(next));
+        } catch (e) {}
+        return next;
+      });
+
+      // 4. Remove messages and save synchronously
       setMessages((prev) => {
         const next = { ...prev };
         delete next[studentId];
+        try {
+          window.localStorage.setItem('bondr_srm_messages_v8', JSON.stringify(next));
+        } catch (e) {}
         return next;
       });
+
+      // 5. If currentUser is deleted, reset to guest and save synchronously
       if (currentUser && currentUser.id === studentId) {
-        logoutToGuest();
+        setCurrentUser(DEFAULT_USER);
+        try {
+          window.localStorage.setItem('bondr_srm_user_v8', JSON.stringify(DEFAULT_USER));
+        } catch (e) {}
       }
+
       toast.success('Your profile has been permanently deleted.');
     },
-    [currentUser, setStudents, setConnections, setMessages, logoutToGuest]
+    [currentUser, setStudents, setConnections, setMessages, setCurrentUser]
   );
 
   const addStudent = useCallback(

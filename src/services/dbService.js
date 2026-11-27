@@ -89,6 +89,26 @@ export async function upsertProfileToCloud(student) {
   }
 }
 
+export async function deleteProfileFromCloud(studentId) {
+  if (!isSupabaseConfigured() || !studentId) return false;
+  try {
+    const { error } = await supabase
+      .from('profiles')
+      .delete()
+      .eq('id', studentId);
+
+    if (error) {
+      console.warn('Error deleting profile from Supabase:', error);
+      return false;
+    }
+    console.log('🗑️ Successfully deleted profile from Supabase:', studentId);
+    return true;
+  } catch (err) {
+    console.warn('Network error deleting profile from Supabase:', err);
+    return false;
+  }
+}
+
 /* ==============================================================================
    CONNECTIONS
    ============================================================================== */
