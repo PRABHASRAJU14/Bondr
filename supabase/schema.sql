@@ -97,29 +97,80 @@ ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.group_messages ENABLE ROW LEVEL SECURITY;
 
--- Permissive public policies for authenticated campus web app
+-- Permissive public policies for authenticated campus web app (safe re-run)
+DROP POLICY IF EXISTS "Allow public read on profiles" ON public.profiles;
 CREATE POLICY "Allow public read on profiles" ON public.profiles FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow public insert on profiles" ON public.profiles;
 CREATE POLICY "Allow public insert on profiles" ON public.profiles FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow public update on profiles" ON public.profiles;
 CREATE POLICY "Allow public update on profiles" ON public.profiles FOR UPDATE USING (true);
+
+DROP POLICY IF EXISTS "Allow public delete on profiles" ON public.profiles;
 CREATE POLICY "Allow public delete on profiles" ON public.profiles FOR DELETE USING (true);
 
+DROP POLICY IF EXISTS "Allow public read on connections" ON public.connections;
 CREATE POLICY "Allow public read on connections" ON public.connections FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow public insert on connections" ON public.connections;
 CREATE POLICY "Allow public insert on connections" ON public.connections FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow public update on connections" ON public.connections;
 CREATE POLICY "Allow public update on connections" ON public.connections FOR UPDATE USING (true);
+
+DROP POLICY IF EXISTS "Allow public delete on connections" ON public.connections;
 CREATE POLICY "Allow public delete on connections" ON public.connections FOR DELETE USING (true);
 
+DROP POLICY IF EXISTS "Allow public read on messages" ON public.messages;
 CREATE POLICY "Allow public read on messages" ON public.messages FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow public insert on messages" ON public.messages;
 CREATE POLICY "Allow public insert on messages" ON public.messages FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow public update on messages" ON public.messages;
 CREATE POLICY "Allow public update on messages" ON public.messages FOR UPDATE USING (true);
 
+DROP POLICY IF EXISTS "Allow public read on groups" ON public.groups;
 CREATE POLICY "Allow public read on groups" ON public.groups FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow public insert on groups" ON public.groups;
 CREATE POLICY "Allow public insert on groups" ON public.groups FOR INSERT WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Allow public read on group_messages" ON public.group_messages;
 CREATE POLICY "Allow public read on group_messages" ON public.group_messages FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow public insert on group_messages" ON public.group_messages;
 CREATE POLICY "Allow public insert on group_messages" ON public.group_messages FOR INSERT WITH CHECK (true);
 
--- 8. Enable Realtime Publications on tables so live updates push to clients instantly
-ALTER PUBLICATION supabase_realtime ADD TABLE public.profiles;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.connections;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.messages;
-ALTER PUBLICATION supabase_realtime ADD TABLE public.group_messages;
+-- 8. Enable Realtime Publications on tables so live updates push to clients instantly (safe re-run)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'profiles'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.profiles;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'connections'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.connections;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'messages'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.messages;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'group_messages'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.group_messages;
+  END IF;
+END $$;
