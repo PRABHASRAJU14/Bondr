@@ -82,6 +82,7 @@ export default function Messages() {
   const [newGroupDesc, setNewGroupDesc] = useState('');
 
   const chatScrollContainerRef = useRef(null);
+  const chatInputRef = useRef(null);
 
   // Map of student records
   const studentMap = useMemo(() => {
@@ -226,12 +227,11 @@ export default function Messages() {
     }
   };
 
-  const handleSendIcebreaker = (icebreakerText) => {
-    if (activeMode === 'groups' && activeGroup) {
-      sendGroupMessage(activeGroup.id, icebreakerText);
-    } else if (activeMode === 'direct' && activeStudent) {
-      sendMessage(activeStudent.id, icebreakerText);
-    }
+  const handleSelectPrompt = (promptText) => {
+    setInputVal(promptText);
+    setTimeout(() => {
+      chatInputRef.current?.focus();
+    }, 15);
   };
 
   const handleSendMeetup = (e) => {
@@ -630,7 +630,8 @@ export default function Messages() {
               key={idx}
               type="button"
               className="icebreaker-chip"
-              onClick={() => handleSendIcebreaker(prompt)}
+              onClick={() => handleSelectPrompt(prompt)}
+              title="Click to insert into message box"
             >
               {prompt}
             </button>
@@ -641,6 +642,7 @@ export default function Messages() {
         <form className="chat-composer-bar" onSubmit={handleSend}>
           <input
             type="text"
+            ref={chatInputRef}
             className="chat-input"
             placeholder={`Message #${activeGroup.name.replace(/[^a-zA-Z0-9 ]/g, '').trim()}...`}
             value={inputVal}
@@ -793,21 +795,24 @@ export default function Messages() {
             <button
               type="button"
               className="icebreaker-chip"
-              onClick={() => handleSendIcebreaker('👋 Hey, glad we connected! What are you working on this week?')}
+              onClick={() => handleSelectPrompt('👋 Hey, glad we connected! What are you working on this week?')}
+              title="Click to insert prompt"
             >
               👋 Say Hello
             </button>
             <button
               type="button"
               className="icebreaker-chip"
-              onClick={() => handleSendIcebreaker('☕ Free to grab a coffee at Central Cafe this afternoon?')}
+              onClick={() => handleSelectPrompt('☕ Free to grab a coffee at Central Cafe this afternoon?')}
+              title="Click to insert prompt"
             >
               ☕ Coffee Break
             </button>
             <button
               type="button"
               className="icebreaker-chip"
-              onClick={() => handleSendIcebreaker('📚 Heading to the library later to study?')}
+              onClick={() => handleSelectPrompt('📚 Heading to the library later to study?')}
+              title="Click to insert prompt"
             >
               📚 Library Study
             </button>
@@ -817,6 +822,7 @@ export default function Messages() {
           <form className="chat-composer-bar" onSubmit={handleSend}>
             <input
               type="text"
+              ref={chatInputRef}
               className="chat-input"
               placeholder={`Message ${activeStudent.name.split(' ')[0]}...`}
               value={inputVal}

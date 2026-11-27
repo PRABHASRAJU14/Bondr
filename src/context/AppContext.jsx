@@ -547,6 +547,11 @@ export function AppProvider({ children }) {
 
   const logoutToGuest = useCallback(() => {
     setCurrentUser(DEFAULT_USER);
+    try {
+      window.localStorage.setItem('bondr_srm_user_v8', JSON.stringify(DEFAULT_USER));
+    } catch (e) {
+      console.warn('Logout persistence error:', e);
+    }
     toast.success('Logged out. You are now in Guest mode.');
   }, [setCurrentUser]);
 
@@ -859,14 +864,15 @@ export function AppProvider({ children }) {
 
   const pendingConnections = useMemo(() => {
     if (!currentUser || currentUser.isGuest) return [];
+    const validStudentIds = new Set((students || []).map((s) => s?.id));
     return (Array.isArray(connections) ? connections : []).filter((c) => {
       if (!c || c.status !== 'pending') return false;
       if (c.fromUserId && c.toUserId) {
-        return c.toUserId === currentUser.id; // Received by current user
+        return c.toUserId === currentUser.id && validStudentIds.has(c.fromUserId);
       }
-      return c.direction === 'received' && c.studentId !== currentUser.id;
+      return c.direction === 'received' && c.studentId !== currentUser.id && validStudentIds.has(c.studentId);
     });
-  }, [connections, currentUser]);
+  }, [connections, currentUser, students]);
 
   const sentConnections = useMemo(() => {
     if (!currentUser || currentUser.isGuest) return [];
@@ -950,6 +956,11 @@ export function AppProvider({ children }) {
         markMessagesReadInCloud(threadKey, studentId, currentId);
 
         if (!hasChanged) return prev;
+        try {
+          window.localStorage.setItem('bondr_srm_messages_v8', JSON.stringify(updated));
+        } catch (e) {
+          console.warn('Error persisting read messages:', e);
+        }
         return updated;
       });
     },

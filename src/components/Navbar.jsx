@@ -12,7 +12,11 @@ export default function Navbar({ onOpenLogin }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const pendingNotificationCount = pendingConnections?.length || 0;
+  const isConnectionsPage = location.pathname.startsWith('/connections');
+  const isMessagesPage = location.pathname.startsWith('/messages');
+
+  const pendingNotificationCount = isConnectionsPage ? 0 : (pendingConnections?.length || 0);
+  const displayUnreadMessages = isMessagesPage ? 0 : (unreadMessagesCount || 0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 14);
@@ -53,8 +57,8 @@ export default function Navbar({ onOpenLogin }) {
           </NavLink>
           <NavLink to="/messages" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
             Messages
-            {unreadMessagesCount > 0 && (
-              <span className="nav-count-pill messages-badge">{unreadMessagesCount}</span>
+            {displayUnreadMessages > 0 && (
+              <span className="nav-count-pill messages-badge">{displayUnreadMessages}</span>
             )}
           </NavLink>
         </nav>
@@ -138,7 +142,7 @@ export default function Navbar({ onOpenLogin }) {
               My Connections {pendingNotificationCount > 0 && `(${pendingNotificationCount})`}
             </NavLink>
             <NavLink to="/messages" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-              Messages &amp; Chat {unreadMessagesCount > 0 && `(${unreadMessagesCount})`}
+              Messages &amp; Chat {displayUnreadMessages > 0 && `(${displayUnreadMessages})`}
             </NavLink>
 
             <div className="mobile-drawer-actions">

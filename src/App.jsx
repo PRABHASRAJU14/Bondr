@@ -34,6 +34,21 @@ export default function App() {
   const location = useLocation();
   const isMessages = location.pathname.startsWith('/messages');
 
+  useEffect(() => {
+    if (isMessages) {
+      document.documentElement.classList.add('messages-active');
+      document.body.classList.add('messages-active');
+      window.scrollTo(0, 0);
+    } else {
+      document.documentElement.classList.remove('messages-active');
+      document.body.classList.remove('messages-active');
+    }
+    return () => {
+      document.documentElement.classList.remove('messages-active');
+      document.body.classList.remove('messages-active');
+    };
+  }, [isMessages]);
+
   return (
     <AppProvider>
       <div className={`app-shell ${isMessages ? 'app-shell-messages' : ''}`}>

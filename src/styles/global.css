@@ -77,12 +77,22 @@ ol {
   position: relative;
 }
 
+html.messages-active,
+body.messages-active {
+  height: 100% !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
 .app-shell.app-shell-messages {
   height: 100vh;
   height: 100dvh;
   max-height: 100vh;
   max-height: 100dvh;
   overflow: hidden;
+  position: relative;
 }
 
 .main-content {
@@ -100,6 +110,8 @@ ol {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  flex: 1;
 }
 
 .container {

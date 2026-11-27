@@ -222,6 +222,12 @@ export default function AddStudent() {
       return;
     }
 
+    const cleanBio =
+      formData.bio.trim() ||
+      `Excited to connect with fellow SRM AP students who share interests in ${
+        formData.hobbies.slice(0, 2).join(' & ') || 'campus activities'
+      }!`;
+
     const cleanEmail = `${formData.name.trim().toLowerCase().replace(/\s+/g, '_')}@srmap.edu.in`;
 
     const created = addStudent(
@@ -234,8 +240,8 @@ export default function AddStudent() {
         password: formData.password.trim(),
         hostel: formData.hostel || 'Ganga Hostel',
         image: formData.image.trim(),
-        bio: formData.bio.trim(),
-        aboutMe: formData.bio.trim(),
+        bio: cleanBio,
+        aboutMe: cleanBio,
         hobbies: formData.hobbies,
         goal: formData.goal,
         favouriteActivities:

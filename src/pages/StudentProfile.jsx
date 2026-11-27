@@ -309,7 +309,12 @@ export default function StudentProfile() {
             <h2>
               <Heart size={20} /> About Me
             </h2>
-            <p className="profile-about-text">{student.aboutMe || student.bio}</p>
+            <p className="profile-about-text">
+              {student.aboutMe?.trim() || student.bio?.trim() || (isOwnProfile
+                ? "No bio added yet. Click 'Edit Profile' above to introduce yourself to your campus peers!"
+                : `Hi! I'm ${student.name?.split(' ')[0] || 'a student'} at SRM University-AP. Connect with me to collaborate on projects, study, and share campus experiences!`
+              )}
+            </p>
           </section>
 
           {/* Campus Leadership & Academic Highlights */}
