@@ -14,9 +14,10 @@ export default defineConfig({
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'motion-vendor': ['framer-motion'],
           'icons-vendor': ['lucide-react'],
+          'supabase-vendor': ['@supabase/supabase-js'],
         },
       },
     },
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 800,
   },
 });

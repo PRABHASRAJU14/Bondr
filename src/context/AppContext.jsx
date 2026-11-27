@@ -3,6 +3,18 @@ import toast from 'react-hot-toast';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { SAMPLE_STUDENTS } from '../data/students';
 import { rankStudentsBySharedInterests } from '../utils/matching';
+import {
+  fetchProfilesFromCloud,
+  upsertProfileToCloud,
+  fetchConnectionsFromCloud,
+  upsertConnectionToCloud,
+  removeConnectionFromCloud,
+  fetchMessagesFromCloud,
+  insertMessageToCloud,
+  markMessagesReadInCloud,
+  subscribeToCloudChanges,
+} from '../services/dbService';
+import { isSupabaseConfigured } from '../services/supabaseClient';
 
 const AppContext = createContext(null);
 
@@ -215,6 +227,150 @@ export function AppProvider({ children }) {
     }
   }, [setStudents, setCurrentUser]);
 
+  // Supabase Cloud Synchronization & Realtime Listeners
+  useEffect(() => {
+    if (!isSupabaseConfigured()) return;
+
+    let mounted = true;
+
+    async function loadCloudData() {
+      try {
+        const [cloudProfiles, cloudConnections, cloudMessages] = await Promise.all([
+          fetchProfilesFromCloud(),
+          fetchConnectionsFromCloud(),
+          fetchMessagesFromCloud(),
+        ]);
+
+        if (mounted) {
+          if (cloudProfiles && cloudProfiles.length > 0) {
+            setStudents((prev) => {
+              const safe = Array.isArray(prev) ? prev : [];
+              const cloudIds = new Set(cloudProfiles.map((p) => p.id));
+              const localOnly = safe.filter((s) => s && !cloudIds.has(s.id));
+              return [...cloudProfiles, ...localOnly];
+            });
+          }
+
+          if (cloudConnections && cloudConnections.length > 0) {
+            setConnections(cloudConnections);
+          }
+
+          if (cloudMessages && Object.keys(cloudMessages).length > 0) {
+            setMessages((prev) => ({
+              ...(prev || {}),
+              ...cloudMessages,
+            }));
+          }
+        }
+      } catch (err) {
+        console.warn('Error loading cloud data from Supabase:', err);
+      }
+    }
+
+    loadCloudData();
+
+    // Subscribe to live WebSocket realtime events
+    const unsubscribe = subscribeToCloudChanges({
+      onProfileChange: (payload) => {
+        if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+          const profile = payload.new;
+          if (!profile) return;
+          const mapped = {
+            id: profile.id,
+            name: profile.name,
+            email: profile.email,
+            rollNumber: profile.roll_number || '',
+            department: profile.department || 'Computer Science & Engineering',
+            year: profile.year || '2nd Year',
+            hostel: profile.hostel || 'Ganga Hostel',
+            image: profile.image || null,
+            bio: profile.bio || profile.about_me || '',
+            aboutMe: profile.about_me || profile.bio || '',
+            hobbies: Array.isArray(profile.hobbies) ? profile.hobbies : [],
+            goal: profile.goal || 'Friendship',
+            favouriteActivities: Array.isArray(profile.favourite_activities) ? profile.favourite_activities : [],
+            isVerified: profile.is_verified ?? true,
+          };
+          setStudents((prev) => {
+            const safe = Array.isArray(prev) ? prev : [];
+            const idx = safe.findIndex((s) => s.id === mapped.id);
+            if (idx >= 0) {
+              const updated = [...safe];
+              updated[idx] = { ...updated[idx], ...mapped };
+              return updated;
+            }
+            return [mapped, ...safe];
+          });
+        }
+      },
+      onConnectionChange: (payload) => {
+        if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+          const c = payload.new;
+          if (!c) return;
+          const mapped = {
+            id: c.id,
+            fromUserId: c.from_user_id,
+            toUserId: c.to_user_id,
+            status: c.status,
+            createdAt: c.created_at,
+          };
+          setConnections((prev) => {
+            const safe = Array.isArray(prev) ? prev : [];
+            const idx = safe.findIndex((item) => item.id === c.id);
+            if (idx >= 0) {
+              const updated = [...safe];
+              updated[idx] = mapped;
+              return updated;
+            }
+            return [mapped, ...safe];
+          });
+        } else if (payload.eventType === 'DELETE') {
+          setConnections((prev) => (Array.isArray(prev) ? prev.filter((item) => item.id !== payload.old?.id) : []));
+        }
+      },
+      onMessageInsert: (msgRow) => {
+        if (!msgRow) return;
+        const msg = {
+          id: msgRow.id,
+          senderId: msgRow.sender_id,
+          text: msgRow.text,
+          isMeetup: msgRow.is_meetup,
+          read: msgRow.read,
+          readBy: msgRow.read_by || [],
+          createdAt: msgRow.created_at,
+        };
+        const key = msgRow.thread_key;
+        setMessages((prev) => {
+          const safe = prev || {};
+          const existing = safe[key] || [];
+          if (existing.some((m) => m && m.id === msg.id)) return prev;
+          return {
+            ...safe,
+            [key]: [...existing, msg],
+          };
+        });
+      },
+      onMessageUpdate: (msgRow) => {
+        if (!msgRow) return;
+        const key = msgRow.thread_key;
+        setMessages((prev) => {
+          const safe = prev || {};
+          const existing = safe[key] || [];
+          const updated = existing.map((m) => (m && m.id === msgRow.id ? { ...m, read: msgRow.read, readBy: msgRow.read_by } : m));
+          return {
+            ...safe,
+            [key]: updated,
+          };
+        });
+      },
+    });
+
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
+  }, [setStudents, setConnections, setMessages]);
+
   // Rank students dynamically against current user's hobbies (excluding self if signed in as a student)
   const rankedStudents = useMemo(() => {
     const safeStudents = Array.isArray(students) ? students : [];
@@ -337,6 +493,7 @@ export function AppProvider({ children }) {
         newConnection,
         ...(Array.isArray(prev) ? prev.filter((c) => c && c.fromUserId !== c.toUserId && c.studentId !== currentUser.id) : []),
       ]);
+      upsertConnectionToCloud(newConnection);
       toast.success(`Connection request sent to ${studentName}!`);
     },
     [connections, currentUser, setConnections]
@@ -353,7 +510,11 @@ export function AppProvider({ children }) {
             c.studentId === targetId ||
             (c.fromUserId === targetId && c.toUserId === currentId) ||
             (c.toUserId === targetId && c.fromUserId === currentId);
-          return match ? { ...c, status: 'accepted' } : c;
+          if (match) {
+            upsertConnectionToCloud({ ...c, status: 'accepted' });
+            return { ...c, status: 'accepted' };
+          }
+          return c;
         })
       );
       toast.success(`Connected with ${studentName || 'student'}! You can now chat in Messages.`);
@@ -364,6 +525,7 @@ export function AppProvider({ children }) {
   const cancelConnectionRequest = useCallback(
     (targetId, studentName) => {
       const currentId = currentUser?.id;
+      removeConnectionFromCloud(targetId);
       setConnections((prev) =>
         (Array.isArray(prev) ? prev : []).filter((c) => {
           if (!c) return false;
@@ -486,6 +648,10 @@ export function AppProvider({ children }) {
           console.warn('Direct save error on user:', e);
         }
       }
+
+      // Sync new profile to Supabase cloud
+      upsertProfileToCloud(created);
+
       return created;
     },
     [setStudents, setCurrentUser]
@@ -530,8 +696,9 @@ export function AppProvider({ children }) {
       });
 
       toast.success('Profile details updated successfully!');
+      upsertProfileToCloud({ ...currentUser, ...updates });
     },
-    [currentUser.id, setCurrentUser, setStudents]
+    [currentUser, setCurrentUser, setStudents]
   );
 
   const loginAsUser = useCallback(
@@ -614,6 +781,8 @@ export function AppProvider({ children }) {
         });
 
         const newThread = [...merged, userMsg];
+
+        insertMessageToCloud(threadKey, userMsg);
 
         return {
           ...safe,
@@ -778,6 +947,8 @@ export function AppProvider({ children }) {
           );
         }
 
+        markMessagesReadInCloud(threadKey, studentId, currentId);
+
         if (!hasChanged) return prev;
         return updated;
       });
@@ -894,6 +1065,7 @@ export function AppProvider({ children }) {
     sendMessage,
     sendGroupMessage,
     createGroup,
+    isCloudConnected: isSupabaseConfigured(),
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
