@@ -125,14 +125,46 @@ export default function AddStudent() {
       toast.error('Please upload an image file (JPEG, PNG, or WEBP).');
       return;
     }
-    if (file.size > 2.5 * 1024 * 1024) {
-      toast.error('Image size must be under 2.5MB.');
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('Image size must be under 10MB.');
       return;
     }
+
     const reader = new FileReader();
     reader.onload = (e) => {
-      handleFieldChange('image', e.target.result);
-      toast.success('Profile photo uploaded and previewed!');
+      const img = new Image();
+      img.onload = () => {
+        const MAX_DIM = 280;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_DIM) {
+            height = Math.round((height * MAX_DIM) / width);
+            width = MAX_DIM;
+          }
+        } else {
+          if (height > MAX_DIM) {
+            width = Math.round((width * MAX_DIM) / height);
+            height = MAX_DIM;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Compress to compact JPEG data URL (~15-25 KB instead of megabytes)
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        handleFieldChange('image', compressedDataUrl);
+        toast.success('Profile photo optimized and attached!');
+      };
+      img.onerror = () => {
+        handleFieldChange('image', e.target.result);
+      };
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   };
@@ -190,9 +222,12 @@ export default function AddStudent() {
       return;
     }
 
+    const cleanEmail = `${formData.name.trim().toLowerCase().replace(/\s+/g, '_')}@srmap.edu.in`;
+
     const created = addStudent(
       {
         name: formData.name.trim(),
+        email: cleanEmail,
         department: formData.department,
         year: formData.year,
         rollNumber: formData.rollNumber.trim() || 'AP24110010099',

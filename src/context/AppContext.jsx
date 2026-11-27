@@ -133,7 +133,7 @@ export function AppProvider({ children }) {
   const [groups, setGroups] = useLocalStorage('bondr_srm_groups_v8', DEFAULT_GROUPS);
   const [groupMessages, setGroupMessages] = useLocalStorage('bondr_srm_group_messages_v8', DEFAULT_GROUP_MESSAGES);
 
-  // Clean up any legacy user data from localStorage
+  // Clean up any legacy user data and migrate previously created profiles from older storage versions
   useEffect(() => {
     try {
       const legacyKeys = [
@@ -148,10 +148,72 @@ export function AppProvider({ children }) {
         'faf_srm_messages_v6',
       ];
       legacyKeys.forEach((key) => window.localStorage.removeItem(key));
+
+      // Recover student profiles from any previous version
+      const olderStudentKeys = [
+        'bondr_srm_students_v7',
+        'bondr_srm_students_v6',
+        'bondr_srm_students_v5',
+        'bondr_srm_students',
+      ];
+      let recovered = [];
+      olderStudentKeys.forEach((key) => {
+        try {
+          const raw = window.localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              recovered = [...recovered, ...parsed];
+            }
+          }
+        } catch {
+          // ignore
+        }
+      });
+
+      if (recovered.length > 0) {
+        setStudents((prev) => {
+          const safe = Array.isArray(prev) ? prev : [];
+          const existingIds = new Set(safe.map((s) => s.id));
+          const existingRolls = new Set(safe.map((s) => s.rollNumber?.toLowerCase()).filter(Boolean));
+          const toAdd = recovered.filter((s) => s && s.id && !existingIds.has(s.id) && !existingRolls.has(s.rollNumber?.toLowerCase()));
+          if (toAdd.length > 0) {
+            const merged = [...safe, ...toAdd];
+            try {
+              window.localStorage.setItem('bondr_srm_students_v8', JSON.stringify(merged));
+            } catch {
+              // ignore
+            }
+            return merged;
+          }
+          return safe;
+        });
+      }
+
+      // Recover active logged-in user if currently guest
+      const currentStored = window.localStorage.getItem('bondr_srm_user_v8');
+      const isGuest = !currentStored || JSON.parse(currentStored)?.isGuest;
+      if (isGuest) {
+        for (const uKey of ['bondr_srm_user_v7', 'bondr_srm_user_v6', 'bondr_srm_user']) {
+          try {
+            const rawU = window.localStorage.getItem(uKey);
+            if (rawU) {
+              const parsedU = JSON.parse(rawU);
+              if (parsedU && !parsedU.isGuest && parsedU.name) {
+                setCurrentUser(parsedU);
+                window.localStorage.setItem('bondr_srm_user_v8', JSON.stringify(parsedU));
+                break;
+              }
+            }
+          } catch {
+            // ignore
+          }
+        }
+      }
     } catch {
       // ignore
     }
-  }, []);
+  }, [setStudents, setCurrentUser]);
 
   // Rank students dynamically against current user's hobbies (excluding self if signed in as a student)
   const rankedStudents = useMemo(() => {
@@ -354,25 +416,59 @@ export function AppProvider({ children }) {
 
   const addStudent = useCallback(
     (newStudentData, setAsActive = false) => {
+      const cleanEmail =
+        newStudentData.email ||
+        `${newStudentData.name.toLowerCase().replace(/\s+/g, '_')}@srmap.edu.in`;
+
+      const cleanRoll =
+        newStudentData.rollNumber || `AP241100${Math.floor(1000 + Math.random() * 9000)}`;
+
       const created = {
         ...newStudentData,
-        id: `stu-${Date.now()}`,
+        email: cleanEmail,
+        rollNumber: cleanRoll,
+        id: newStudentData.id || `stu-${Date.now()}`,
         isSample: false,
         isVerified: true,
         createdAt: new Date().toISOString(),
       };
-      setStudents((prev) => [created, ...(Array.isArray(prev) ? prev : [])]);
+
+      setStudents((prev) => {
+        const safe = Array.isArray(prev) ? prev : [];
+        const idx = safe.findIndex(
+          (s) =>
+            s.id === created.id ||
+            (s.rollNumber && s.rollNumber.toLowerCase() === created.rollNumber.toLowerCase()) ||
+            (s.email && s.email.toLowerCase() === created.email.toLowerCase())
+        );
+
+        let next;
+        if (idx >= 0) {
+          next = [...safe];
+          next[idx] = { ...next[idx], ...created };
+        } else {
+          next = [created, ...safe];
+        }
+
+        try {
+          window.localStorage.setItem('bondr_srm_students_v8', JSON.stringify(next));
+        } catch (e) {
+          console.warn('Direct save error on students:', e);
+        }
+
+        return next;
+      });
 
       if (setAsActive) {
-        setCurrentUser({
+        const activeUser = {
           id: created.id,
           name: created.name,
           department: created.department,
           year: created.year,
           hobbies: created.hobbies,
           goal: created.goal,
-          rollNumber: created.rollNumber || 'AP25110010099',
-          email: created.email || `${created.name.toLowerCase().replace(/\s+/g, '_')}@srmap.edu.in`,
+          rollNumber: created.rollNumber,
+          email: created.email,
           password: created.password || '',
           hostel: created.hostel || 'Ganga Hostel',
           bio: created.bio || '',
@@ -380,7 +476,15 @@ export function AppProvider({ children }) {
           favouriteActivities: created.favouriteActivities || [],
           isGuest: false,
           image: created.image || null,
-        });
+        };
+
+        setCurrentUser(activeUser);
+
+        try {
+          window.localStorage.setItem('bondr_srm_user_v8', JSON.stringify(activeUser));
+        } catch (e) {
+          console.warn('Direct save error on user:', e);
+        }
       }
       return created;
     },
@@ -389,23 +493,42 @@ export function AppProvider({ children }) {
 
   const updateCurrentUserHobbies = useCallback(
     (hobbies) => {
-      setCurrentUser((prev) => ({
-        ...prev,
-        hobbies,
-      }));
+      setCurrentUser((prev) => {
+        const updated = { ...prev, hobbies };
+        try {
+          window.localStorage.setItem('bondr_srm_user_v8', JSON.stringify(updated));
+        } catch (e) {
+          // ignore
+        }
+        return updated;
+      });
     },
     [setCurrentUser]
   );
 
   const updateUserProfile = useCallback(
     (updates) => {
-      setCurrentUser((prev) => ({
-        ...prev,
-        ...updates,
-      }));
-      setStudents((prev) =>
-        prev.map((s) => (s.id === currentUser.id ? { ...s, ...updates } : s))
-      );
+      setCurrentUser((prev) => {
+        const updated = { ...prev, ...updates };
+        try {
+          window.localStorage.setItem('bondr_srm_user_v8', JSON.stringify(updated));
+        } catch (e) {
+          // ignore
+        }
+        return updated;
+      });
+
+      setStudents((prev) => {
+        const safe = Array.isArray(prev) ? prev : [];
+        const next = safe.map((s) => (s.id === currentUser.id ? { ...s, ...updates } : s));
+        try {
+          window.localStorage.setItem('bondr_srm_students_v8', JSON.stringify(next));
+        } catch (e) {
+          // ignore
+        }
+        return next;
+      });
+
       toast.success('Profile details updated successfully!');
     },
     [currentUser.id, setCurrentUser, setStudents]
@@ -419,16 +542,37 @@ export function AppProvider({ children }) {
       };
       setCurrentUser(loggedUser);
 
-      // Make sure this student exists in the public directory
+      // Make sure this student exists in the public directory and persist immediately
       setStudents((prev) => {
-        const idx = prev.findIndex((s) => s.id === loggedUser.id || (s.email && s.email === loggedUser.email));
+        const safe = Array.isArray(prev) ? prev : [];
+        const idx = safe.findIndex(
+          (s) =>
+            s.id === loggedUser.id ||
+            (s.email && s.email.toLowerCase() === loggedUser.email?.toLowerCase()) ||
+            (s.rollNumber && s.rollNumber.toLowerCase() === loggedUser.rollNumber?.toLowerCase())
+        );
+
+        let next;
         if (idx >= 0) {
-          const updated = [...prev];
-          updated[idx] = { ...updated[idx], ...loggedUser };
-          return updated;
+          next = [...safe];
+          next[idx] = { ...next[idx], ...loggedUser };
+        } else {
+          next = [loggedUser, ...safe];
         }
-        return [loggedUser, ...prev];
+
+        try {
+          window.localStorage.setItem('bondr_srm_students_v8', JSON.stringify(next));
+        } catch (e) {
+          console.warn('Direct save students error:', e);
+        }
+        return next;
       });
+
+      try {
+        window.localStorage.setItem('bondr_srm_user_v8', JSON.stringify(loggedUser));
+      } catch (e) {
+        console.warn('Direct save user error:', e);
+      }
 
       toast.success(`Welcome, ${userProfile.name}!`);
     },
