@@ -9,7 +9,7 @@ import FilterBar from '../components/FilterBar';
 import StudentCard from '../components/StudentCard';
 
 export default function Discover({ onOpenLogin }) {
-  const { rankedStudents, currentUser } = useApp();
+  const { rankedStudents, currentUser, isCloudConnected } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialHobby = normalizeHobbyName(searchParams.get('hobby')) || 'All Interests';
@@ -110,9 +110,40 @@ export default function Discover({ onOpenLogin }) {
           style={{ width: 280, height: 280, background: '#B9A3E8', top: -70, right: 40 }}
         />
         <div className="container page-hero-inner">
-          <span className="section-eyebrow">
-            <Users size={14} /> SRM AP Student Discovery
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 12 }}>
+            <span className="section-eyebrow" style={{ margin: 0 }}>
+              <Users size={14} /> SRM AP Student Discovery
+            </span>
+            <span
+              style={{
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                padding: '3px 10px',
+                borderRadius: '9999px',
+                background: isCloudConnected ? '#ECFDF5' : '#FFFBEB',
+                color: isCloudConnected ? '#065F46' : '#92400E',
+                border: `1px solid ${isCloudConnected ? '#A7F3D0' : '#FDE68A'}`,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+              title={
+                isCloudConnected
+                  ? 'Connected to Supabase PostgreSQL cloud database'
+                  : 'Running in Local Storage. Restart your Vite terminal (Ctrl+C, then npm run dev) to load .env.local'
+              }
+            >
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: '50%',
+                  background: isCloudConnected ? '#10B981' : '#F59E0B',
+                }}
+              />
+              {isCloudConnected ? 'Live Cloud Synced' : 'Local Storage Mode'}
+            </span>
+          </div>
           <h1 className="page-hero-title">Meet Your Kind of People.</h1>
           <p className="page-hero-subtitle">
             Discover fellow SRM University-AP students who share your interests. Profiles are

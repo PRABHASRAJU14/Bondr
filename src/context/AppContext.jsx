@@ -247,8 +247,28 @@ export function AppProvider({ children }) {
               const safe = Array.isArray(prev) ? prev : [];
               const cloudIds = new Set(cloudProfiles.map((p) => p.id));
               const localOnly = safe.filter((s) => s && !cloudIds.has(s.id));
+              localOnly.forEach((local) => {
+                if (local && local.id && !local.isSample) {
+                  upsertProfileToCloud(local);
+                }
+              });
               return [...cloudProfiles, ...localOnly];
             });
+          } else {
+            // Cloud is empty - upload existing local profiles to Supabase cloud!
+            setStudents((prev) => {
+              const safe = Array.isArray(prev) ? prev : [];
+              safe.forEach((local) => {
+                if (local && local.id && !local.isSample) {
+                  upsertProfileToCloud(local);
+                }
+              });
+              return safe;
+            });
+          }
+
+          if (currentUser && !currentUser.isGuest) {
+            upsertProfileToCloud(currentUser);
           }
 
           if (cloudConnections && cloudConnections.length > 0) {
